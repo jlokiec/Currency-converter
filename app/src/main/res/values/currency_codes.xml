@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currency_codes">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>CHF</item>
+        <item>CZK</item>
+        <item>NOK</item>
+        <item>RUB</item>
+        <item>JPY</item>
+        <item>PLN</item>
+        <item>HUF</item>
+        <item>CAD</item>
+    </string-array>
+</resources>
