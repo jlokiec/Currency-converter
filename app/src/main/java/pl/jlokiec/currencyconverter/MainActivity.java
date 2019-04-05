@@ -1,7 +1,11 @@
 package pl.jlokiec.currencyconverter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 import pl.jlokiec.currencyconverter.converter.CurrencyCodes;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private MainViewModel viewModel;
     private TextView txtConvertedValue;
 
@@ -46,17 +52,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void convert(View view) {
-        Spinner spinnerCurrencyFrom = findViewById(R.id.spinner_currency_from_code);
-        Spinner spinnerCurrencyTo = findViewById(R.id.spinner_currency_to_code);
+        if (checkInternetConnection()) {
+            Log.d(TAG, "convert: Internet connection is working, beginning converison.");
+            Spinner spinnerCurrencyFrom = findViewById(R.id.spinner_currency_from_code);
+            Spinner spinnerCurrencyTo = findViewById(R.id.spinner_currency_to_code);
 
-        String currencyFrom = spinnerCurrencyFrom.getSelectedItem().toString();
-        String currencyTo = spinnerCurrencyTo.getSelectedItem().toString();
+            String currencyFrom = spinnerCurrencyFrom.getSelectedItem().toString();
+            String currencyTo = spinnerCurrencyTo.getSelectedItem().toString();
 
-        CurrencyCodes baseCurrency = CurrencyCodes.valueOf(currencyFrom);
-        CurrencyCodes targetCurrency = CurrencyCodes.valueOf(currencyTo);
+            CurrencyCodes baseCurrency = CurrencyCodes.valueOf(currencyFrom);
+            CurrencyCodes targetCurrency = CurrencyCodes.valueOf(currencyTo);
 
-        String userInput = ((EditText) findViewById(R.id.txt_currency_from_value)).getText().toString();
-        double valueToConvert = Double.valueOf(userInput);
-        viewModel.convertValue(baseCurrency, targetCurrency, valueToConvert);
+            String userInput = ((EditText) findViewById(R.id.txt_currency_from_value)).getText().toString();
+            double valueToConvert = Double.valueOf(userInput);
+            viewModel.convertValue(baseCurrency, targetCurrency, valueToConvert);
+        } else {
+            Log.d(TAG, "convert: No internet connection, cannot convert.");
+        }
+    }
+
+    private boolean checkInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
