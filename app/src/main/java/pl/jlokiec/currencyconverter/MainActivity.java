@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import pl.jlokiec.currencyconverter.converter.CurrencyCodes;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             viewModel.convertValue(baseCurrency, targetCurrency, valueToConvert);
         } else {
             Log.d(TAG, "convert: No internet connection, cannot convert.");
+            Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
         }
     }
 
