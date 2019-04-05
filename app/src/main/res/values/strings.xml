@@ -6,4 +6,5 @@
     <string name="convert">Convert!</string>
     <string name="result">Result:</string>
     <string name="no_internet_connection">No internet connection, try again later</string>
+    <string name="invalid_input_value">Invalid input value</string>
 </resources>

@@ -65,7 +65,15 @@ public class MainActivity extends AppCompatActivity {
             CurrencyCodes targetCurrency = CurrencyCodes.valueOf(currencyTo);
 
             String userInput = ((EditText) findViewById(R.id.txt_currency_from_value)).getText().toString();
-            double valueToConvert = Double.valueOf(userInput);
+
+            double valueToConvert;
+            try {
+                valueToConvert = Double.valueOf(userInput);
+            } catch (NumberFormatException e) {
+                Log.d(TAG, "convert: Invalid input value, unable to convert.");
+                Toast.makeText(this, R.string.invalid_input_value, Toast.LENGTH_SHORT).show();
+                return;
+            }
             viewModel.convertValue(baseCurrency, targetCurrency, valueToConvert);
         } else {
             Log.d(TAG, "convert: No internet connection, cannot convert.");
