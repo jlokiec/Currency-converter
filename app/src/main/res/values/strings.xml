@@ -5,4 +5,5 @@
     <string name="currency_to">To:</string>
     <string name="convert">Convert!</string>
     <string name="result">Result:</string>
+    <string name="invalid_input_value">Invalid input value</string>
 </resources>

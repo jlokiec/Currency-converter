@@ -2,15 +2,19 @@ package pl.jlokiec.currencyconverter;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import pl.jlokiec.currencyconverter.converter.CurrencyCodes;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private MainViewModel viewModel;
     private TextView txtConvertedValue;
 
@@ -56,7 +60,15 @@ public class MainActivity extends AppCompatActivity {
         CurrencyCodes targetCurrency = CurrencyCodes.valueOf(currencyTo);
 
         String userInput = ((EditText) findViewById(R.id.txt_currency_from_value)).getText().toString();
-        double valueToConvert = Double.valueOf(userInput);
+
+        double valueToConvert;
+        try {
+            valueToConvert = Double.valueOf(userInput);
+        } catch (NumberFormatException e) {
+            Log.d(TAG, "convert: Invalid input value, unable to convert.");
+            Toast.makeText(this, R.string.invalid_input_value, Toast.LENGTH_SHORT).show();
+            return;
+        }
         viewModel.convertValue(baseCurrency, targetCurrency, valueToConvert);
     }
 }
